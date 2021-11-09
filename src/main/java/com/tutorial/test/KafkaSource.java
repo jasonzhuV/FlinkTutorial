@@ -1,4 +1,4 @@
-package com.jason.test;
+package com.tutorial.test;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;

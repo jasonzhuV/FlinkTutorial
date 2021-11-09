@@ -1,4 +1,4 @@
-package com.jason.example;
+package com.tutorial.example;
 
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
@@ -10,12 +10,10 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
-public class Demo_001_StreamingHelloWorld {
+public class Demo_002_StreamingSocket {
     /*
-     * 来一条数据就处理一次
-     * 数据是一条一条处理的，在hadoop计算，只有最终结果
      * 流数据的word count
-     * 对于批数据，也是一条一条的处理
+     * 用socket模拟流数据
      */
     public static void main(String[] args) throws Exception{
         // 1 获取流环境
@@ -23,7 +21,8 @@ public class Demo_001_StreamingHelloWorld {
         // 2 设置并行任务数量
         env.setParallelism(1);
         // 3 读取数据源
-        DataStreamSource<String> stream = env.fromElements("hello world", "hello flink");
+        // 注意先启动 nc -lk 9999
+        DataStreamSource<String> stream = env.socketTextStream("localhost", 9999);
         // 4 map操作
         SingleOutputStreamOperator<Tuple2<String, Long>> mappedStream = stream
                 .flatMap(new FlatMapFunction<String, Tuple2<String, Long>>() {
