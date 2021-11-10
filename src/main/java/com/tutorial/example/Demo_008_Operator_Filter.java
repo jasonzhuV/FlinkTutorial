@@ -2,10 +2,13 @@ package com.tutorial.example;
 
 import com.tutorial.bean.Event;
 import com.tutorial.source.ClickSource;
+import org.apache.flink.api.common.functions.FilterFunction;
+import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.util.Collector;
 
 /**
  * 单流转换算子 ： 对一条流，并没有进行（分组）分流操作，还是一条流
@@ -17,23 +20,33 @@ public class Demo_008_Operator_Filter {
         env.setParallelism(1);
 
         DataStreamSource<Event> stream = env.addSource(new ClickSource());
-        // 匿名函数的写法
-        stream.map(r -> r.user).print();
 
-        stream
-                .map((Event event) -> event.user)
-                .returns(Types.STRING)
-                .print();
+        stream.filter(r -> r.user.equals("Mary")).print();
 
-        // 匿名内部类的写法
-        stream.map(new MapFunction<Event, String>() {
+        stream.filter(new FilterFunction<Event>() {
             @Override
-            public String map(Event event) throws Exception {
-                return event.user;
+            public boolean filter(Event event) throws Exception {
+                return event.user.equals("Mary");
             }
         }).print();
 
-        env.execute("Operator Map");
+        stream.filter(new MyFilter()).print();
+
+        // 使用flatmap实现filter
+        stream.flatMap(new FlatMapFunction<Event, Event>() {
+            @Override
+            public void flatMap(Event event, Collector<Event> collector) throws Exception {
+                if (event.user.equals("Mary")) collector.collect(event);
+            }
+        }).print();
+
+        env.execute();
     }
 
+    public static class MyFilter implements FilterFunction<Event> {
+        @Override
+        public boolean filter(Event event) throws Exception {
+            return event.user.equals("Mary");
+        }
+    }
 }

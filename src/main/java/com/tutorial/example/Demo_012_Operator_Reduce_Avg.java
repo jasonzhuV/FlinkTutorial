@@ -1,15 +1,11 @@
 package com.tutorial.example;
 
-import com.tutorial.bean.Event;
-import com.tutorial.source.ClickSource;
 import com.tutorial.source.IntegerSource;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.typeinfo.Types;
-import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
-import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
@@ -21,7 +17,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  *
  * 有状态的算子，输入相同的情况下，输出是变化的 像 reduce
  */
-public class Demo_011_Operator_Reduce_SumMinMax {
+public class Demo_012_Operator_Reduce_Avg {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
@@ -29,13 +25,16 @@ public class Demo_011_Operator_Reduce_SumMinMax {
         DataStreamSource<Integer> stream = env.addSource(new IntegerSource());
 
         stream
+                //匿名函数的写法，下面需要显式指定返回值类型，因为有类型擦除，不能推断类型
                 .map(e -> Tuple2.of(1L, e.doubleValue()))
                 .returns(Types.TUPLE(Types.LONG, Types.DOUBLE))
                 .keyBy(e -> true)
-                .reduce(new ReduceFunction<Tuple2<Long, Double>>() { // TODO 累加器的类型和流中元素的类型是一样的
+                // TODO 累加器的类型和流中元素的类型是一样的
+                .reduce(new ReduceFunction<Tuple2<Long, Double>>() {
                     @Override
                     public Tuple2<Long, Double> reduce(Tuple2<Long, Double> acc, Tuple2<Long, Double> in) throws Exception {
-                        return Tuple2.of(acc.f0 + in.f0, acc.f1 + in.f1); // @TODO 返回的是累加器
+                        // TODO 返回的是累加器
+                        return Tuple2.of(acc.f0 + in.f0, acc.f1 + in.f1);
                     }
                 })
                 .map(new MapFunction<Tuple2<Long, Double>, Double>() {

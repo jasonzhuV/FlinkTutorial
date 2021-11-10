@@ -24,7 +24,9 @@ public class Demo_009_Operator_Flatmap {
         DataStreamSource<String> dataStreamSource = env
                 .fromElements("white", "gray", "black");
 
-        // 匿名内部类 还有外部类
+        /**
+         * 1、匿名内部类 还有外部类
+         */
         env
                 .fromElements("white", "gray", "black")
                 .flatMap(new FlatMapFunction<String, String>() {
@@ -41,9 +43,12 @@ public class Demo_009_Operator_Flatmap {
                 .print();
 
 
+        /**
+         * 2、指定输入参数的类型，要显式指定返回值类型，因为不能自动推断
+         */
         env
                 .fromElements("white", "gray", "black")
-                .flatMap((String s, Collector<String> collector) -> { // 这里的输入是个元组，但是要要指定类型
+                .flatMap((String s, Collector<String> collector) -> { // TODO 这里的输入是个元组，但是要指定类型
                     if (s.equals("white")) {
                         collector.collect(s);
                     } else if (s.equals("black")) {
@@ -55,13 +60,13 @@ public class Demo_009_Operator_Flatmap {
                 .print();
 
 
-        /*
-         * 下面个是匿名内部类的lambda写法，但是要加返回值类型 returns(Types.STRING) ，否则会报错
+        /**
+         * 3、匿名内部类的lambda写法，要显式指定返回值类型 returns(Types.STRING) ，因为不能自动推断
          */
         env
                 .fromElements("white", "gray", "black")
                 // 写了一个函数签名
-                .flatMap((FlatMapFunction<String, String>) (s, collector) -> { // 可以不写元组的类型，但是要标注函数的泛型
+                .flatMap((FlatMapFunction<String, String>) (s, collector) -> { // TODO 可以不写元组的类型，但是要标注函数的泛型
                     if (s.equals("white")) {
                         collector.collect(s);
                     } else if (s.equals("black")) {

@@ -2,7 +2,6 @@ package com.tutorial.example;
 
 import com.tutorial.bean.Event;
 import com.tutorial.source.ClickSource;
-import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.typeinfo.Types;
@@ -10,11 +9,10 @@ import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.util.Collector;
 
 /**
  * 多流转换
- * 例子计算PV
+ * 每个用户的pv数据
  */
 public class Demo_010_Operator_KeyBy_Reduce {
     public static void main(String[] args) throws Exception {
@@ -27,6 +25,10 @@ public class Demo_010_Operator_KeyBy_Reduce {
         // 同一个key对应的数据一定在一个任务槽
         // 不同key的数据也可能在一个任务槽，但逻辑上是隔离开的
         KeyedStream<Event, String> keyedStream = stream.keyBy(r -> r.user);
+
+        keyedStream
+                .map(r -> Tuple2.of(r.user, 1L)) // 匿名函数的写法
+                .returns(Types.TUPLE(Types.STRING, Types.LONG)); // 显式指定返回值类型，因为有类型擦除，不能自动类型推断
 
         keyedStream
                 .map(new MapFunction<Event, Tuple2<String, Long>>() {
