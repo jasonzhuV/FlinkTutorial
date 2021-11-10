@@ -1,5 +1,6 @@
 package com.tutorial.test;
 
+import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
@@ -43,14 +44,18 @@ public class KafkaSource {
                 ));
 
         kafkaStream
+                .filter(new FilterFunction<String>() {
+                    @Override
+                    public boolean filter(String value) throws Exception {
+                        return value.trim().length() != 0;
+                    }
+                })
                 .flatMap(new FlatMapFunction<String, Tuple2<String, Long>>() {
                     @Override
                     public void flatMap(String value, Collector<Tuple2<String, Long>> out) throws Exception {
                         String[] arr = value.split(" ");
-                        if (arr.length > 0 && !"".equals(value)) {
-                            for (String word : arr) {
-                                out.collect(Tuple2.of(word, 1L));
-                            }
+                        for (String word : arr) {
+                            out.collect(Tuple2.of(word, 1L));
                         }
                     }
                 })
@@ -77,6 +82,13 @@ public class KafkaSource {
         String line = "";
         String[] s = line.split(" ");
         System.out.println(s.length);
+    }
+
+    @Test
+    public void test2() {
+        String line = "   ";
+        String trim = line.trim();
+        System.out.println(trim.length());
     }
 }
 
