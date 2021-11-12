@@ -38,6 +38,12 @@ public class Demo_024_State_ValueState {
         private ValueState<Long> lastNumber; // 最近一次的数字
         private ValueState<Long> timerTs; // 用来存储定时器的时间戳
 
+        /*
+         * 针对每一个并行任务，或者说在每一个任务槽上执行一次 open 方法
+         * 底层是用map来维护状态变量，因为键控流的不同key对应的数据可能在一个任务槽上
+         * 而且对于每一个key分开维护状态变量，其实是利用mao做逻辑隔离，对于不同的key分开维护状态变量
+         * 可以理解为 底层的map名称为状态变量的名字（"last-number"） 然后对于每一个key的状态变量用键控流各自的key区分
+         */
         @Override
         public void open(Configuration parameters) throws Exception {
             super.open(parameters);
