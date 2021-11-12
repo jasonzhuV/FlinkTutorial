@@ -41,7 +41,8 @@ public class Demo_028_Watermark {
                     }
                 })
                 // 分配水位线和时间线
-                // 当有事件来的时候，每来一次事件就更新水位线，但是水位线没有插入，机器默认每隔200ms向数据流中插入一次水位线
+                // 当有事件来的时候，每来一次事件就更新 maxTimestamp，但是水位线没有 emit，机器默认每隔200ms向数据流中插入一次水位线
+                /** @see org.apache.flink.api.common.eventtime.BoundedOutOfOrdernessWatermarks onEvent方法 */
                 .assignTimestampsAndWatermarks(
                         // 设置最大延迟时间是5秒
                         // 水位线 = 观察到的事件中的最大时间戳 - 最大延迟时间 - 1ms
