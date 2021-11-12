@@ -18,7 +18,7 @@ public class IntegerSource implements SourceFunction<Integer> {
         Random random = new Random();
         while (running) {
             sourceContext.collect(random.nextInt(10));
-            Thread.sleep(1000L);
+            Thread.sleep(500L);
         }
     }
 
