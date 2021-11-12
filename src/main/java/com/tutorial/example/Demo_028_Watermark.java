@@ -2,6 +2,7 @@ package com.tutorial.example;
 
 import com.tutorial.bean.Event;
 import com.tutorial.source.ClickSource;
+import org.apache.flink.api.common.eventtime.BoundedOutOfOrdernessWatermarks;
 import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
@@ -18,7 +19,6 @@ import java.sql.Timestamp;
 import java.time.Duration;
 
 /**
- *
  * 事件时间语义的钟表 : 逻辑时钟 -> 水位线
  * <p>水位线是事件时间世界里的钟表，在事件时间的世界中，想要知道现在几点，看水位线的大小
  * <p>Flink认为时间戳小于等于水位线的事件都已到达
@@ -42,20 +42,20 @@ public class Demo_028_Watermark {
                 })
                 // 分配水位线和时间线
                 // 当有事件来的时候，每来一次事件就更新 maxTimestamp，但是水位线没有 emit，机器默认每隔200ms向数据流中插入一次水位线
-                /** @see org.apache.flink.api.common.eventtime.BoundedOutOfOrdernessWatermarks onEvent方法 */
+                /** @see BoundedOutOfOrdernessWatermarks onEvent方法 */
                 .assignTimestampsAndWatermarks(
                         // 设置最大延迟时间是5秒
                         // 水位线 = 观察到的事件中的最大时间戳 - 最大延迟时间 - 1ms
                         // forBoundedOutOfOrderness 乱序的
                         WatermarkStrategy.<Tuple2<String, Long>>forBoundedOutOfOrderness(Duration.ofSeconds(5))
-                        .withTimestampAssigner(new SerializableTimestampAssigner<Tuple2<String, Long>>() {
-                            @Override
-                            public long extractTimestamp(Tuple2<String, Long> element, long recordTimestamp) {
+                                .withTimestampAssigner(new SerializableTimestampAssigner<Tuple2<String, Long>>() {
+                                    @Override
+                                    public long extractTimestamp(Tuple2<String, Long> element, long recordTimestamp) {
 //                                System.out.println(recordTimestamp);
-                                // 告诉flink数据中的哪一个字段是事件时间
-                                return element.f1;
-                            }
-                        })
+                                        // 告诉flink数据中的哪一个字段是事件时间
+                                        return element.f1;
+                                    }
+                                })
                 )
                 .keyBy(r -> r.f0)
                 .process(new KeyedProcessFunction<String, Tuple2<String, Long>, String>() {
