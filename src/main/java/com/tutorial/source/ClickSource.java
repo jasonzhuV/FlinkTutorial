@@ -25,7 +25,7 @@ public class ClickSource implements SourceFunction<Event> {
             String url = urlArr[random.nextInt(urlArr.length)];
             // 使用collect方法将数据发送出去
             sourceContext.collect(new Event(username, url, currTs));
-            Thread.sleep(1000L);
+            Thread.sleep(100L);
         }
     }
 
