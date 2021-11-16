@@ -20,7 +20,7 @@ import java.sql.Timestamp;
  * 减少窗口缓存的数据量、获取窗口信息
  * 在窗口闭合的时候，增量聚合会把聚合结果发送给全窗口聚合函数
  */
-public class Demo_033_Window {
+public class Demo_033_Window_AllAndIncremental {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1); // The parallelism is set to 1 for easy printing
