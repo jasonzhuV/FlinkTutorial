@@ -1,14 +1,11 @@
 package com.tutorial.example;
 
-import com.tutorial.bean.Event;
-import com.tutorial.source.SessionClickSource;
 import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
-import org.apache.flink.streaming.api.windowing.assigners.EventTimeSessionWindows;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
@@ -17,9 +14,8 @@ import org.apache.flink.util.Collector;
 /**
  * 水位线的传播
  * 分流：广播
- * 合流：选最小的向下游传播 connect
  */
-public class Demo_034_WM_Pass {
+public class Demo_034_WM_Pass_KeyBy {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1); // The parallelism is set to 1 for easy printing
@@ -42,6 +38,7 @@ public class Demo_034_WM_Pass {
                                     }
                                 })
                 )
+                // TODO 分流
                 .keyBy(element -> element.f0)
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .process(new ProcessWindowFunction<Tuple2<String, Long>, String, String, TimeWindow>() {
@@ -54,6 +51,5 @@ public class Demo_034_WM_Pass {
 
         env.execute();
     }
-
 }
 
