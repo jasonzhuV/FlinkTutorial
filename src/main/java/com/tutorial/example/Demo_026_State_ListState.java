@@ -43,7 +43,12 @@ public class Demo_026_State_ListState {
                             sum += i;
                             cnt += 1;
                         }
-                        out.collect((double) sum / cnt);
+                        if (context.getCurrentKey() % 2 == 0) {
+                            // 偶数流
+                            out.collect((double) sum / cnt);
+                        } else {
+                            // 奇数流
+                        }
                     }
                 })
                 .print();
