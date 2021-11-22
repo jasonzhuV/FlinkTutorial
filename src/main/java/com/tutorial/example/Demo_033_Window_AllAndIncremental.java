@@ -38,7 +38,11 @@ public class Demo_033_Window_AllAndIncremental {
                 )
                 .keyBy(event -> event.user)
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
-                // 增量聚合，全窗口聚合
+                /*
+                增量聚合 + 全窗口聚合结合使用：获取窗口信息 + 节省内存空间
+                获取窗口信息:增量聚合不能获取窗口信息，结合全窗口聚合，获取窗口信息
+                节省内存空间:全窗口聚合保存整个窗口内数据，使用增量聚合提前执行聚合逻辑，节省存储空间）
+                */
                 .aggregate(new PvCount(), new WindowResult())
                 .print();
 

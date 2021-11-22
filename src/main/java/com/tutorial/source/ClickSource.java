@@ -16,8 +16,8 @@ public class ClickSource implements SourceFunction<Event> {
     @Override
     public void run(SourceContext<Event> sourceContext) throws Exception {
         Random random = new Random();
-        String[] userArr = {"Mary", "Bob", "Alice"};
-        String[] urlArr = {"./home", "./cart", "./prod?id=1"};
+        String[] userArr = {"Mary", "Bob", "Alice", "Jason", "Tom", "Jimmy"};
+        String[] urlArr = {"./home", "./cart", "./fav", "./prod?id=1", "./prod?id=2", "./prod?id=3"};
         while (running) {
             // 毫秒时间戳
             long currTs = Calendar.getInstance().getTimeInMillis();

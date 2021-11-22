@@ -50,6 +50,7 @@ public class Demo_032_Window_Incremental {
             return 0L;
         }
 
+        // TODO 每来一条数据就计算一次
         @Override
         public Long add(Event event, Long accumulator) {
             // 定义累加规则，每来一条数据+1

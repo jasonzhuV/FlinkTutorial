@@ -47,7 +47,7 @@ public class Demo_029_Window_All_Bounded {
                     @Override
                     public void process(String key, Context context, Iterable<Event> elements, Collector<String> out) throws Exception {
                         // 迭代器中包含窗口中所有数据
-                        // 当窗口闭合的时候调用process函数
+                        // TODO 当窗口闭合的时候调用process函数
                         // 当水位线到达窗口结束时间的时候，窗口闭合 TODO 有界流结束，当前窗口也闭合 流的结束插入正无穷大的水位线，保证所有的窗口都闭合，所有的定时器都被触发
                         long winStart = context.window().getStart();
                         long winEnd = context.window().getEnd();

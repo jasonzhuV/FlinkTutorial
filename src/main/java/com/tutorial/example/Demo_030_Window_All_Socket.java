@@ -41,6 +41,7 @@ public class Demo_030_Window_All_Socket {
                 .keyBy(r -> r.f0)
                 .window(TumblingEventTimeWindows.of(Time.seconds(5)))
                 .process(new ProcessWindowFunction<Tuple2<String, Long>, String, String, TimeWindow>() {
+                    // TODO 窗口闭合时调用
                     @Override
                     public void process(String key, Context context, Iterable<Tuple2<String, Long>> elements, Collector<String> out) throws Exception {
                         long start = context.window().getStart();
