@@ -76,12 +76,12 @@ public class Demo_049_Batch_HotURL {
                 })
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy.<Event>forBoundedOutOfOrderness(Duration.ofSeconds(0))
-                        .withTimestampAssigner(new SerializableTimestampAssigner<Event>() {
-                            @Override
-                            public long extractTimestamp(Event event, long recordTimestamp) {
-                                return event.timestamp;
-                            }
-                        })
+                                .withTimestampAssigner(new SerializableTimestampAssigner<Event>() {
+                                    @Override
+                                    public long extractTimestamp(Event event, long recordTimestamp) {
+                                        return event.timestamp;
+                                    }
+                                })
                 )
                 .keyBy(event -> event.url)
                 .window(TumblingEventTimeWindows.of(Time.seconds(tumblingWindowDuration)))
@@ -184,13 +184,13 @@ public class Demo_049_Batch_HotURL {
             StringBuilder result = new StringBuilder();
             result
                     .append("================================================\n")
-                    .append(new Timestamp(winStart) + " ~ " + new Timestamp(winEnd) + "\n")
+                    .append(new Timestamp(winStart)).append(" ~ ").append(new Timestamp(winEnd)).append("\n")
                     .append("================================================\n");
 
             for (int i = 0; i < (arrayList.size() < n ? arrayList.size() : n); i++) {
                 UrlCount tmp = arrayList.get(i);
                 result
-                        .append("访问量第" + (i + 1) + "的url：" + tmp.url + "，访问量：" + tmp.cnt)
+                        .append("访问量第").append(i + 1).append("的url：").append(tmp.url).append("，访问量：").append(tmp.cnt)
                         .append("\n");
             }
             result
