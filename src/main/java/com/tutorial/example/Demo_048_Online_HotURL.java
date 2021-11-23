@@ -39,16 +39,16 @@ import java.util.Comparator;
  *
  * <ul>
  *   <li>{@link ProcessFunction}
- *   <li>{@link ProcessAllWindowFunction}
+ *   <li>{@link KeyedProcessFunction}
  *   <li>{@link CoProcessFunction}
  *   <li>{@link ProcessJoinFunction}
  *   <li>{@link BroadcastProcessFunction}
  *   <li>{@link KeyedBroadcastProcessFunction}
+ *   <li>{@link ProcessWindowFunction}
  *   <ul>
  *       <li>{@link AggregateFunction}
  *       <li>{@link ReduceFunction}
  *   </ul>
- *   <li>{@link ProcessWindowFunction}
  *   <li>{@link ProcessAllWindowFunction}
  * </ul>
  */
