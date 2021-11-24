@@ -87,6 +87,18 @@ under the License.
 			<version>1.0</version>
 		</dependency>
 
+		<!-- JDBC的方式sink到MySQL（如果是MySQL 8的话）需要以下两个依赖 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.21</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-connector-jdbc_${scala.binary.version}</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+
 		<!-- Add logging framework, to produce console output when running in the IDE. -->
 		<!-- These dependencies are excluded from the application JAR by default. -->
 		<dependency>
