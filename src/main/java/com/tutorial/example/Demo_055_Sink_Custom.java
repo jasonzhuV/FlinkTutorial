@@ -19,7 +19,7 @@ import java.util.Random;
  * <p>date       : 2021/11/23 3:03 下午
  * <p>description: 自定义 Sink
  */
-public class Demo_054_Sink_Custom {
+public class Demo_055_Sink_Custom {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
