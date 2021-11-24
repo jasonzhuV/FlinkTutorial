@@ -42,7 +42,7 @@ public class Demo_055_Sink_Custom {
                         running = false;
                     }
                 })
-                .keyBy(e -> 1) // 在流里用了状态变量，这是键控状态的
+                .keyBy(e -> 1) // 在流里用了状态变量，这是键控状态的 (ValueState 是键控状态)
                 .addSink(new RichSinkFunction<String>() {
                     private ValueState<Long> count;
                     private FileOutputStream outfile;
