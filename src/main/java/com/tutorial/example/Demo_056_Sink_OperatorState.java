@@ -24,7 +24,7 @@ import java.util.Spliterator;
  * <p>date       : 2021/11/23 3:03 下午
  * <p>description: 自定义 Sink
  */
-public class Demo_055_Sink_OperatorState {
+public class Demo_056_Sink_OperatorState {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
@@ -47,10 +47,75 @@ public class Demo_055_Sink_OperatorState {
                         running = false;
                     }
                 })
-                .addSink(new MySinkWithOperatorState(3)); // operator state 不能直接从getRunTimeContext 获取，需要用下面的方式
+                .addSink(new MyRichSinkWithOperatorState(3)); // operator state 不能直接从getRunTimeContext 获取，需要用下面的方式
 
         env.execute();
     }
+
+    public static class MyRichSinkWithOperatorState extends RichSinkFunction<String> implements CheckpointedFunction {
+        private final int threshold;
+
+        private transient ListState<String> checkpointedState;
+
+        private List<String> bufferedElements;
+
+        private ListState<Long> counter;
+
+        private FileOutputStream outfile;
+
+        public MyRichSinkWithOperatorState(int threshold) {
+            this.threshold = threshold;
+            this.bufferedElements = new ArrayList<>();
+        }
+
+        @Override
+        public void open(Configuration parameters) throws Exception {
+            super.open(parameters);
+            System.out.println("open()");
+//            outfile = new FileOutputStream("src/main/resources/out.txt");
+        }
+
+        @Override
+        public void invoke(String value, Context context) throws Exception {
+            System.out.println("invoke()");
+        }
+
+        @Override
+        public void close() throws Exception {
+            super.close();
+            System.out.println("close()");
+        }
+
+        @Override
+        public void snapshotState(FunctionSnapshotContext context) throws Exception {
+            System.out.println("snapshotState()");
+            checkpointedState.clear();
+            for (String element : bufferedElements) {
+                checkpointedState.add(element);
+            }
+        }
+
+        @Override
+        public void initializeState(FunctionInitializationContext context) throws Exception {
+            System.out.println("initializeState()");
+
+            checkpointedState = context.getOperatorStateStore().getListState(
+                    new ListStateDescriptor<String>("sink with operatorState", Types.STRING)
+            );
+
+            counter = context.getOperatorStateStore().getListState(
+                    new ListStateDescriptor<Long>("counter", Types.LONG)
+            );
+            // 下面逻辑是官网给的代码，如果逻辑基于 bufferedElements 当从检查点恢复的时候，需要将检查点中的数据读出来给到 bufferedElements 处理
+            if (context.isRestored()) {
+                for (String element : checkpointedState.get()) {
+                    bufferedElements.add(element);
+                }
+            }
+        }
+    }
+
+
 
     public static class MySinkWithOperatorState implements SinkFunction<String>, CheckpointedFunction {
         private final int threshold;
@@ -102,8 +167,6 @@ public class Demo_055_Sink_OperatorState {
         @Override
         public void initializeState(FunctionInitializationContext context) throws Exception {
             outfile = new FileOutputStream("src/main/resources/out.txt");
-
-            OperatorStateStore operatorStateStore = context.getOperatorStateStore();
 
             checkpointedState = context.getOperatorStateStore().getListState(
                     new ListStateDescriptor<String>("sink with operatorState", Types.STRING)
