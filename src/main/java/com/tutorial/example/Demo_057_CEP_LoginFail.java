@@ -2,6 +2,7 @@ package com.tutorial.example;
 
 import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.cep.CEP;
 import org.apache.flink.cep.PatternSelectFunction;
 import org.apache.flink.cep.PatternStream;
@@ -15,15 +16,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>author     : zhupeiwen
- * <p>date       : 2021/11/26 6:30 下午
- * <p>description: Complex Event Processing
+ * @author     : zhupeiwen
+ * @date       : 2021/11/26 6:30 下午
+ * @description: Complex Event Processing
  * <p>连续三次登陆失败
  */
 public class Demo_057_CEP_LoginFail {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
+
+        ParameterTool params = ParameterTool.fromArgs(args);
+
+        System.out.println(params.getProperties());
 
         SingleOutputStreamOperator<LoginEvent> stream = env
                 .fromElements(
@@ -49,21 +54,21 @@ public class Demo_057_CEP_LoginFail {
                 .where(new SimpleCondition<LoginEvent>() {
                     @Override
                     public boolean filter(LoginEvent loginEvent) throws Exception {
-                        return loginEvent.eventType.equals("fail");
+                        return "fail".equals(loginEvent.eventType);
                     }
                 })
                 .next("second")
                 .where(new SimpleCondition<LoginEvent>() {
                     @Override
                     public boolean filter(LoginEvent loginEvent) throws Exception {
-                        return loginEvent.eventType.equals("fail");
+                        return "fail".equals(loginEvent.eventType);
                     }
                 })
                 .next("third")
                 .where(new SimpleCondition<LoginEvent>() {
                     @Override
                     public boolean filter(LoginEvent loginEvent) throws Exception {
-                        return loginEvent.eventType.equals("fail");
+                        return "fail".equals(loginEvent.eventType);
                     }
                 });
 
@@ -78,7 +83,7 @@ public class Demo_057_CEP_LoginFail {
                         LoginEvent first = map.get("first").get(0);
                         LoginEvent second = map.get("second").get(0);
                         LoginEvent third = map.get("third").get(0);
-                        return first.userId + "在ip：" +
+                        return first.userId + " 在ip：" +
                                 first.ipAddr + " | " +
                                 second.ipAddr + " | " +
                                 third.ipAddr + " | " +

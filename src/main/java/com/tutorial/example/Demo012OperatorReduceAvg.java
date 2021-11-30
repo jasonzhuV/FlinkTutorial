@@ -17,7 +17,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  *
  * 有状态的算子，输入相同的情况下，输出是变化的 像 reduce
  */
-public class Demo_012_Operator_Reduce_Avg {
+public class Demo012OperatorReduceAvg {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);

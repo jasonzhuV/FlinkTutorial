@@ -14,7 +14,7 @@ import org.apache.flink.util.Collector;
  * map、flatmap、filter
  * map 对流中的每一个元素进行转换，泛型需要有输入和输出
  */
-public class Demo_007_Operator_Map {
+public class Demo007OperatorMap {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);

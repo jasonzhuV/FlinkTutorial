@@ -54,9 +54,9 @@ import java.util.Comparator;
  */
 public class Demo_048_Online_HotURL {
 
-    private final static Integer topN = 3;
+    private final static Integer TOP_N = 3;
 
-    private final static Integer tumblingWindowDuration = 5;
+    private final static Integer TUMBLING_WINDOW_DURATION = 5;
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -74,7 +74,7 @@ public class Demo_048_Online_HotURL {
                         })
                 )
                 .keyBy(event -> event.url)
-                .window(TumblingEventTimeWindows.of(Time.seconds(tumblingWindowDuration)))
+                .window(TumblingEventTimeWindows.of(Time.seconds(TUMBLING_WINDOW_DURATION)))
                 /*
                 TODO 增量聚合+ 全窗口聚合结合使用：获取窗口信息 + 节省内存空间
                 获取窗口信息:增量聚合不能获取窗口信息，结合全窗口聚合，获取窗口信息
@@ -84,7 +84,7 @@ public class Demo_048_Online_HotURL {
                 .aggregate(new CountAgg(), new WindowResult())
                 // keyBy 之后，每一条流的元素：同一个窗口中，不同URL的访问量
                 .keyBy(urlcount -> urlcount.windowEnd)
-                .process(new TopN(topN))
+                .process(new TopN(TOP_N))
                 .print();
 
         env.execute();
@@ -157,7 +157,7 @@ public class Demo_048_Online_HotURL {
         public void onTimer(long timestamp, OnTimerContext ctx, Collector<String> out) throws Exception {
             super.onTimer(timestamp, ctx, out);
             long winEnd = timestamp - 100L;
-            long winStart = winEnd - tumblingWindowDuration * 1000L;
+            long winStart = winEnd - TUMBLING_WINDOW_DURATION * 1000L;
             ArrayList<UrlCount> arrayList = new ArrayList<>();
             for (UrlCount urlCount : listState.get()) {
                 arrayList.add(urlCount);

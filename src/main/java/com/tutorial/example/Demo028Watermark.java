@@ -19,6 +19,8 @@ import java.sql.Timestamp;
 import java.time.Duration;
 
 /**
+ * @author zhupeiwen
+ * @date
  * 事件时间语义的钟表 : 逻辑时钟 -> 水位线
  * <p>水位线是事件时间世界里的钟表，在事件时间的世界中，想要知道现在几点，看水位线的大小
  * <p>Flink认为时间戳小于等于水位线的事件都已到达
@@ -27,10 +29,11 @@ import java.time.Duration;
  * <p>水位线是一个特殊的事件
  * <p>flink会在流的最开始处插入一个 -∞ 水位线 在流的最末尾处插入一个 +∞ 水位线
  */
-public class Demo_028_Watermark {
+public class Demo028Watermark {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1); // The parallelism is set to 1 for easy printing
+        // The parallelism is set to 1 for easy printing
+        env.setParallelism(1);
 
         // 修改水位线的插入间隔，默认200ms
         // 这里控制水位线的更新频率，这里的时长，是个时间段
@@ -57,7 +60,6 @@ public class Demo_028_Watermark {
                                 .withTimestampAssigner(new SerializableTimestampAssigner<Tuple2<String, Long>>() {
                                     @Override
                                     public long extractTimestamp(Tuple2<String, Long> element, long recordTimestamp) {
-//                                System.out.println(recordTimestamp);
                                         // 告诉flink数据中的哪一个字段是事件时间
                                         return element.f1;
                                     }
@@ -69,13 +71,10 @@ public class Demo_028_Watermark {
                     @Override
                     public void processElement(Tuple2<String, Long> in, Context context, Collector<String> out) throws Exception {
                         // 这里注册的事件时间定时器，时钟是逻辑时钟 逻辑时钟到了，才会触发，逻辑时钟又是由事件时间推动的
-
                         out.collect("当前来的数据是：" + in);
                         out.collect("当前的水位线是：" + context.timerService().currentWatermark());
-
                         context.timerService().registerEventTimeTimer(in.f1 + 10 * 1000L);
                     }
-
                     // 数据来了之后，没有插入新的水位线，但是获取到了最新的时间戳，在200ms后，把最新计算得出的水位线插入到流中
                     @Override
                     public void onTimer(long timestamp, OnTimerContext ctx, Collector<String> out) throws Exception {

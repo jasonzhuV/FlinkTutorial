@@ -15,7 +15,7 @@ import org.apache.flink.util.Collector;
  * （flatmap是比map和filter更加底层的算子）
  * flatmap中使用集合的collect方法向下游发送数据
  */
-public class Demo_009_Operator_Flatmap {
+public class Demo009OperatorFlatmap {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);

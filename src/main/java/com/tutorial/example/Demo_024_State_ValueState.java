@@ -64,12 +64,16 @@ public class Demo_024_State_ValueState {
         public void processElement(Long in, Context context, Collector<String> collector) throws Exception {
             Long prevNumber = 0L;
             // 如果不是第一条数据，记录上一条数据的值
-            if (lastNumber.value() != null) prevNumber = lastNumber.value();
+            if (lastNumber.value() != null) {
+                prevNumber = lastNumber.value();
+            }
             // 更新状态变量为此次的值
             lastNumber.update(in);
 
             Long ts = 0L;
-            if (timerTs.value() != null) ts = timerTs.value();
+            if (timerTs.value() != null) {
+                ts = timerTs.value();
+            }
 
             if (prevNumber == 0L || in < prevNumber) {
                 // 如果时间戳对应的定时器不存在，那么删除操作不执行

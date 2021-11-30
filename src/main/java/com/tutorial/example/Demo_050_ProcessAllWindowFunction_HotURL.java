@@ -59,9 +59,9 @@ import java.util.HashMap;
  */
 public class Demo_050_ProcessAllWindowFunction_HotURL {
 
-    private final static Integer topN = 3;
-    /* seconds of each tumbling window */
-    private final static Integer tumblingWindowDuration = 10;
+    private final static Integer TOP_N = 3;
+    /** seconds of each tumbling window */
+    private final static Integer TUMBLING_WINDOW_DURATION = 10;
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -202,7 +202,7 @@ public class Demo_050_ProcessAllWindowFunction_HotURL {
         public void onTimer(long timestamp, OnTimerContext ctx, Collector<String> out) throws Exception {
             super.onTimer(timestamp, ctx, out);
             long winEnd = timestamp - 100L;
-            long winStart = winEnd - tumblingWindowDuration * 1000L;
+            long winStart = winEnd - TUMBLING_WINDOW_DURATION * 1000L;
             ArrayList<UrlCount> arrayList = new ArrayList<>();
             for (UrlCount urlCount : listState.get()) {
                 arrayList.add(urlCount);

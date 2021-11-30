@@ -10,10 +10,12 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
-public class Demo_002_StreamingSocket {
+public class Demo001StreamingHelloWorld {
     /*
+     * 来一条数据就处理一次
+     * 数据是一条一条处理的，在hadoop计算，只有最终结果
      * 流数据的word count
-     * 用socket模拟流数据
+     * 对于批数据，也是一条一条的处理
      */
     public static void main(String[] args) throws Exception{
         // 1 获取流环境
@@ -21,8 +23,7 @@ public class Demo_002_StreamingSocket {
         // 2 设置并行任务数量
         env.setParallelism(1);
         // 3 读取数据源
-        // 注意先启动 nc -lk 9999
-        DataStreamSource<String> stream = env.socketTextStream("localhost", 9999);
+        DataStreamSource<String> stream = env.fromElements("hello world", "hello flink");
         // 4 map操作
         SingleOutputStreamOperator<Tuple2<String, Long>> mappedStream = stream
                 .flatMap(new FlatMapFunction<String, Tuple2<String, Long>>() {

@@ -14,7 +14,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
  * 多流转换
  * 每个用户的pv数据
  */
-public class Demo_010_Operator_KeyBy_Reduce {
+public class Demo010OperatorKeyByReduce {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
