@@ -9,6 +9,7 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
+ * @author     : zhupeiwen
  * 求整数流的平均值
  * 使用reduce实现，reduce的累加器思想，滚动聚合，规约聚合
  *

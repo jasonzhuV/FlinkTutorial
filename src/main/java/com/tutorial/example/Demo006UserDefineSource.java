@@ -4,6 +4,7 @@ import com.tutorial.source.ClickSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
+ * @author     : zhupeiwen
  * 自定义数据源，用户行为数据
  */
 public class Demo006UserDefineSource {

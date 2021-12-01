@@ -5,6 +5,7 @@ import org.apache.flink.streaming.api.functions.source.ParallelSourceFunction;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
 
 /**
+ * @author     : zhupeiwen
  * 自定义数据源
  * fromElements 算子的并行度必须是 1
  * ① 要保证顺序不乱

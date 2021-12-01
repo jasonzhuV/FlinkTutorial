@@ -33,8 +33,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 /**
- * <p>author     : zhupeiwen
- * <p>date       : 2021/11/22 2:46 下午
+ * @author zhupeiwen
+ * @date 2021/11/22 2:46 下午
+ *
  * <p>description:
  * <p>实时热门URL，每一个滚动窗口中访问量最大的前几个URL
  * <p>使用windowAll直接在流上开窗，再process(new ProcessAllWindowFunction)

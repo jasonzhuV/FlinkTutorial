@@ -10,8 +10,11 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
+/**
+ *  * @author     : zhupeiwen
+ */
 public class Demo002StreamingSocket {
-    /*
+    /**
      * 流数据的word count
      * 用socket模拟流数据
      */

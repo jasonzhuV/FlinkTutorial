@@ -10,8 +10,11 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
+/**
+ *  * @author     : zhupeiwen
+ */
 public class Demo001StreamingHelloWorld {
-    /*
+    /**
      * 来一条数据就处理一次
      * 数据是一条一条处理的，在hadoop计算，只有最终结果
      * 流数据的word count

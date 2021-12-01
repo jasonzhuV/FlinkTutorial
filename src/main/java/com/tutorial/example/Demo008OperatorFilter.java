@@ -11,6 +11,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
 /**
+ * @author     : zhupeiwen
  * 单流转换算子 ： 对一条流，并没有进行（分组）分流操作，还是一条流
  * filter ： 泛型只有一个，输入的类型
  */

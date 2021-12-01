@@ -5,6 +5,7 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
+ * @author     : zhupeiwen
  * RichFunction
  * 所有的flink函数类都有其Rich版本，富函数类一般是以抽象类的形式出现，例如RichMapFunction、RichFilterFunction、RichReduceFunction
  * 与常规函数类的不同：富函数类可以获取运行环境的上下文，并拥有一些生命周期方法，可以实现更复杂的功能

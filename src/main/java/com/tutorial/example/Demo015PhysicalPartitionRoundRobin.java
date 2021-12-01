@@ -3,6 +3,7 @@ package com.tutorial.example;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 /**
+ * @author     : zhupeiwen
  * 物理分区
  * 轮询分区 求余的操作
  */

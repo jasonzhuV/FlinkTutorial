@@ -11,8 +11,11 @@ import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
+/**
+ *  * @author     : zhupeiwen
+ */
 public class Demo003AnonymousMethod {
-    /*
+    /**
      * 匿名函数写法（当有类型擦除的时候，需要指定返回类型），java的类型推断的能力弱
      * java的话，推荐使用匿名内部类
      */

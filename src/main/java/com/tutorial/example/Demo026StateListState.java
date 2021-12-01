@@ -13,12 +13,16 @@ import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
 
 /**
+ * @author zhupeiwen
  * ListState
  */
 public class Demo026StateListState {
+    static Integer ODD_EVEN = 2;
+
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1); // The parallelism is set to 1 for easy printing
+        // The parallelism is set to 1 for easy printing
+        env.setParallelism(1);
 
         env
                 .addSource(new IntegerSource())
@@ -43,7 +47,7 @@ public class Demo026StateListState {
                             sum += i;
                             cnt += 1;
                         }
-                        if (context.getCurrentKey() % 2 == 0) {
+                        if (context.getCurrentKey() % ODD_EVEN == 0) {
                             // 偶数流
                             out.collect((double) sum / cnt);
                         } else {

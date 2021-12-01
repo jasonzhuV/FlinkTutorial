@@ -5,27 +5,25 @@ import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.api.common.functions.MapFunction;
-import org.apache.flink.api.java.tuple.Tuple2;
-import org.apache.flink.shaded.com.google.common.base.Charsets;
-import org.apache.flink.shaded.com.google.common.hash.BloomFilter;
-import org.apache.flink.shaded.com.google.common.hash.Funnels;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
+
 import java.sql.Timestamp;
 import java.time.Duration;
-
+import java.util.HashSet;
 
 /**
- * <p>author     : zhupeiwen
- * <p>date       : 2021/11/25 2:51 下午
- * <p>description: 使用布隆过滤器，减小去重时的内存压力
+ * @author     : zhupeiwen
+ * <p>date       : 2021/11/25 2:28 下午
+ * <p>description: UV 独立访客计算(每10S的UV数据) 【增量聚合 + 全窗口聚合的方式】
+ * 这种方式一定程度上肩减少了内存的占用，但用于去重的累加器 HashSet 当用户比较多时，内存有压力
  */
-public class Example_02_BloomFilter {
-    public static void main(String[] args) throws Exception {
+public class Example01UV {
+    public static void main(String[] args) throws Exception{
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
@@ -56,30 +54,26 @@ public class Example_02_BloomFilter {
         env.execute();
     }
 
-    public static class CountAgg implements AggregateFunction<Event, Tuple2<BloomFilter<String>, Long>, Long> {
+    public static class CountAgg implements AggregateFunction<Event, HashSet<String>, Long> {
+
         @Override
-        public Tuple2<BloomFilter<String>, Long> createAccumulator() {
-            // 预期用户数量100,误判率0.01
-            return Tuple2.of(BloomFilter.create(Funnels.stringFunnel(Charsets.UTF_8), 100, 0.01), 0L);
+        public HashSet<String> createAccumulator() {
+            return new HashSet<>();
         }
 
         @Override
-        public Tuple2<BloomFilter<String>, Long> add(Event event, Tuple2<BloomFilter<String>, Long> acc) {
-            // 这里存在误判 可能来过的判断是不准确的，有可能某个值经过Hash之后，有命中，但是其他值的Hash覆盖的，也认为来过，就不加了
-            if (!acc.f0.mightContain(event.user)) {
-                acc.f0.put(event.user);
-                acc.f1 += 1L; // uv值加一
-            }
-            return acc;
+        public HashSet<String> add(Event value, HashSet<String> accumulator) {
+            accumulator.add(value.user);
+            return accumulator;
         }
 
         @Override
-        public Long getResult(Tuple2<BloomFilter<String>, Long> acc) {
-            return acc.f1;
+        public Long getResult(HashSet<String> accumulator) {
+            return (long) accumulator.size();
         }
 
         @Override
-        public Tuple2<BloomFilter<String>, Long> merge(Tuple2<BloomFilter<String>, Long> bloomFilterLongTuple2, Tuple2<BloomFilter<String>, Long> acc1) {
+        public HashSet<String> merge(HashSet<String> a, HashSet<String> b) {
             return null;
         }
     }
@@ -94,4 +88,5 @@ public class Example_02_BloomFilter {
             out.collect(start + " ~ " + end + "的UV数据是：" + cnt);
         }
     }
+
 }

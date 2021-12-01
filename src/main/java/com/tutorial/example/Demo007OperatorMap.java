@@ -10,6 +10,7 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
 /**
+ * @author     : zhupeiwen
  * 单流转换算子 ： 对一条流，并没有进行（分组）分流操作，还是一条流
  * map、flatmap、filter
  * map 对流中的每一个元素进行转换，泛型需要有输入和输出

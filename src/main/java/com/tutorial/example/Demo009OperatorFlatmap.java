@@ -10,12 +10,17 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
 
 /**
+ * @author     : zhupeiwen
  * 单流转换算子 ： 对一条流，并没有进行（分组）分流操作，还是一条流
  * flatmap ： 把每条数据转换成 0个一个或者多个，是map个filter的泛化
  * （flatmap是比map和filter更加底层的算子）
  * flatmap中使用集合的collect方法向下游发送数据
  */
 public class Demo009OperatorFlatmap {
+
+    static String WHITE_COLOR = "white";
+    static String BLACK_COLOR = "black";
+
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
@@ -32,9 +37,9 @@ public class Demo009OperatorFlatmap {
                 .flatMap(new FlatMapFunction<String, String>() {
                     @Override
                     public void flatMap(String s, Collector<String> collector) throws Exception {
-                        if (s.equals("white")) {
+                        if (WHITE_COLOR.equals(s)) {
                             collector.collect(s);
-                        } else if (s.equals("black")) {
+                        } else if (BLACK_COLOR.equals(s)) {
                             collector.collect(s);
                             collector.collect(s);
                         }
@@ -48,15 +53,17 @@ public class Demo009OperatorFlatmap {
          */
         env
                 .fromElements("white", "gray", "black")
-                .flatMap((String s, Collector<String> collector) -> { // TODO 这里的输入是个元组，但是要指定类型
-                    if (s.equals("white")) {
+                // TODO 这里的输入是个元组，但是要指定类型
+                .flatMap((String s, Collector<String> collector) -> {
+                    if (WHITE_COLOR.equals(s)) {
                         collector.collect(s);
-                    } else if (s.equals("black")) {
+                    } else if (BLACK_COLOR.equals(s)) {
                         collector.collect(s);
                         collector.collect(s);
                     }
                 })
-                .returns(Types.STRING) // 类型注解
+                // 类型注解
+                .returns(Types.STRING)
                 .print();
 
 
@@ -66,15 +73,17 @@ public class Demo009OperatorFlatmap {
         env
                 .fromElements("white", "gray", "black")
                 // 写了一个函数签名
-                .flatMap((FlatMapFunction<String, String>) (s, collector) -> { // TODO 可以不写元组的类型，但是要标注函数的泛型
-                    if (s.equals("white")) {
+                // TODO 可以不写元组的类型，但是要标注函数的泛型
+                .flatMap((FlatMapFunction<String, String>) (s, collector) -> {
+                    if (WHITE_COLOR.equals(s)) {
                         collector.collect(s);
-                    } else if (s.equals("black")) {
+                    } else if (BLACK_COLOR.equals(s)) {
                         collector.collect(s);
                         collector.collect(s);
                     }
                 })
-                .returns(Types.STRING) // 类型注解
+                // 类型注解
+                .returns(Types.STRING)
                 .print();
 
         env.execute();
