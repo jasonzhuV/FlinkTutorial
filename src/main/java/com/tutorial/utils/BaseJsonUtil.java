@@ -3,9 +3,6 @@ package com.tutorial.utils;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -13,12 +10,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author zhupeiwen
  * @date 2021/12/2 7:50 下午
  */
+@Slf4j
 public abstract class BaseJsonUtil {
-    private static final Logger logger = LogManager.getLogger(BaseJsonUtil.class.getName());
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
@@ -40,7 +39,7 @@ public abstract class BaseJsonUtil {
         try {
             return MAPPER.writeValueAsString(o);
         } catch (JsonProcessingException e) {
-            logger.error("json format failed, msg:{}, error:{}" + o.toString() + e.getMessage());
+            log.error("json format failed, msg:{}, error:{}" + o.toString() + e.getMessage());
             return null;
         }
     }
@@ -49,7 +48,7 @@ public abstract class BaseJsonUtil {
         try {
             return Optional.of(MAPPER.readValue(s, typeReference));
         } catch (JsonProcessingException e) {
-            logger.error("json parse failed, msg:{}, error:{}" + s + e.getMessage());
+            log.error("json parse failed, msg:{}, error:{}" + s + e.getMessage());
             return Optional.empty();
         }
     }
@@ -58,7 +57,7 @@ public abstract class BaseJsonUtil {
         try {
             return Optional.of(MAPPER.readValue(s, clazz));
         } catch (JsonProcessingException e) {
-            logger.error("json parse failed, msg:{}, error:{}" + s + e.getMessage());
+            log.error("json parse failed, msg:{}, error:{}" + s + e.getMessage());
             return Optional.empty();
         }
     }
