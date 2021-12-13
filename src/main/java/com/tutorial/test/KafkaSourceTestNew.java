@@ -19,7 +19,7 @@ import org.apache.flink.util.Collector;
  */
 public class KafkaSourceTestNew {
     public static String cbbTopicName = "cbb_conversion_tag_slice";
-    public static String brokerList = "172.23.4.7:9093,172.23.4.10:9093,172.23.4.15:9093";
+    public static String brokerList = "10.20.0.40:9092";
     public static String groupId = "consumer-group-test-connection-1";
 
     public static void main(String[] args) throws Exception {
