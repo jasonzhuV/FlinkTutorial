@@ -1,67 +1,92 @@
 package com.tutorial.utils;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tutorial.utils.bean.Tag;
-import com.tutorial.utils.bean.TestFieldName;
-import com.tutorial.utils.pojo.BccSliceTagMessage;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.tutorial.utils.bean.BccTagMessageBase;
+import com.tutorial.utils.bean.testbean.Contents;
+import com.tutorial.utils.bean.testbean.People;
+import com.tutorial.utils.bean.testbean.Phone;
+import com.tutorial.utils.bean.testbean.RootObject;
+import com.tutorial.utils.jsonutil.BaseJsonUtil;
 
 /**
  * @author zhupeiwen
  * @date 2021/12/3 2:06 下午
  */
 public class JsonTest {
+
     @Test
-    public void test1() throws IOException {
-        String s =
-            "{\"tag\":[{\"ruleId\":\"0001\",\"tags\":[{\"key\":\"风险\",\"values\":[\"产品负面反馈\"]},{\"key\":\"风险类型\",\"values\":[\"信誉风险\"]}]},{\"ruleId\":\"0002\",\"tags\":[{\"key\":\"事件\",\"values\":[\"产品介绍\",\"竞品\",\"询价\"]}]},{\"ruleId\":\"0003\",\"tags\":[{\"key\":\"竞品\",\"values\":[\"竞品1\",\"竞品2\"]}]}]}";
-        Optional<Map<String, Object>> parse = BaseJsonUtil.parse(s, new TypeReference<Map<String, Object>>() {});
+    public void t1() throws IOException {
+        InputStream jsonInputStream = JsonTest.class.getClassLoader().getResourceAsStream("message.json");
+        String jsonStr = "";
+        try {
+            assert jsonInputStream != null;
+            jsonStr = IOUtils.toString(jsonInputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Optional<BccTagMessageBase> parse = BaseJsonUtil.parse(jsonStr, new TypeReference<BccTagMessageBase>() {});
 
-        Map<String, Object> soMap = parse.get();
+        parse.ifPresent(e -> System.out.println(BaseJsonUtil.toJsonStr(e)));
 
-        for (Map.Entry<String, Object> next : soMap.entrySet()) {
-            System.out.println(next.getKey());
+        if (parse.isPresent()) {
+            BccTagMessageBase bccTagMessageBase = parse.get();
         }
     }
 
     @Test
-    public void test2() {
-        List<String> data = Arrays.asList("testing data1", "testing data2");
-        JsonBean test = new JsonBean("1001", "0.0.1", data);
-        System.out.println(BaseJsonUtil.toJsonStr(test));
-    }
-
-    @Test
-    public void test3() throws IOException {
+    public void t2() throws IOException {
         String s =
-            "{\"tag\":[{\"ruleId\":\"0001\",\"tags\":[{\"key\":\"风险\",\"values\":[\"产品负面反馈\"]},{\"key\":\"风险类型\",\"values\":[\"信誉风险\"]}]},{\"ruleId\":\"0002\",\"tags\":[{\"key\":\"事件\",\"values\":[\"产品介绍\",\"竞品\",\"询价\"]}]},{\"ruleId\":\"0003\",\"tags\":[{\"key\":\"竞品\",\"values\":[\"竞品1\",\"竞品2\"]}]}]}";
-        Optional<Tag> parse = BaseJsonUtil.parse(s, new TypeReference<Tag>() {});
+            "[{\"field1\": \"field1\", \"field2\": \"field2\",  \"field3\": \"field3\"},{  \"field4\": \"field4\",  \"field5\": \"field5\",  \"field6\": \"field6\"}]";
+        // 获取内容，根据标记判断对应的bean，再反序列化
+        Optional<List<Map<String, Object>>> parse =
+            BaseJsonUtil.parse(s, new TypeReference<List<Map<String, Object>>>() {});
 
-        System.out.println(BaseJsonUtil.toJsonStr(parse.get()));
-
+        // if (parse.isPresent()) {
+        // parse.get().contains()
+        // }
     }
 
     @Test
-    public void test4() throws IOException {
-        String s = "{\"slice_num\": \"2\",\"ruleId\": \"0001\"}";
-        Optional<TestFieldName> parse = BaseJsonUtil.parse(s, new TypeReference<TestFieldName>() {});
+    public void t3() throws IOException {
+        InputStream jsonInputStream = JsonTest.class.getClassLoader().getResourceAsStream("test.json");
+        String jsonStr = "";
+        try {
+            assert jsonInputStream != null;
+            jsonStr = IOUtils.toString(jsonInputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println(BaseJsonUtil.toJsonStr(parse.get()));
+        Optional<RootObject> parse = BaseJsonUtil.parse(jsonStr, new TypeReference<RootObject>() {});
+
+        if (parse.isPresent()) {
+            List<Contents> contents = parse.get().getContents();
+            for (Contents content : contents) {
+                if (content instanceof People) {
+                    System.out.println("people : " + content);
+                } else if (content instanceof Phone) {
+                    System.out.println("phone : " + content);
+                }
+            }
+        }
     }
 
     @Test
-    public void test5() throws IOException {
-        String s =
-            "{\"code\":\"\",\"body\":{\"msg_room_id\":\"wrzuQBCQAAr2GkXs2Jl7doygJswKKmlA\",\"brand_id\":\"\",\"brand_name\":\"\",\"data_version\":\"\",\"day\":\"2021-11-11\",\"dialogue_id\":\"1100001\",\"start_slice_id\":\"00001\",\"end_slice_id\":\"00002\",\"is_relevant\":\"1\",\"slice_num\":\"2\",\"staff_ids\":\"Wxmaapekddlqkf\",\"consumer_ids\":\"ZHANGsan\",\"staff_names\":\"张三\",\"keyword\":[\"帮到您？\",\"藿香正气水\"],\"tag\":[{\"ruleId\":\"00011\",\"tags\":[{\"key\":\"话题\",\"values\":[\"需求问询\"]}]}],\"slices\":[{\"sliceId\":\"mdxalffa001\",\"msg_from\":\"0001\",\"msg_to_list\":\"0002\",\"msg_time\":\"2021-11-11 12:00:00\",\"msg_type\":\"text\",\"text\":\"请问有什么可以帮到您\",\"msg_file_url\":\"\",\"msg_file_size\":\"\",\"file_play_length\":\"\",\"file_deal_status\":\"\",\"keyword\":[\"请问\",\"帮到您\"],\"tag\":[{\"ruleId\":\"0001\",\"tags\":[{\"key\":\"话题\",\"values\":[\"迎宾\"]},{\"key\":\"主题\",\"values\":[\"需求问询\"]}]}]},{\"sliceId\":\"mdxalffa002\",\"msg_from\":\"0002\",\"msg_to_list\":\"0001\",\"msg_time\":\"2021-11-11 12:00:00\",\"msg_type\":\"text\",\"text\":\"有没有藿香正气水？\",\"msg_file_url\":\"\",\"msg_file_size\":\"\",\"file_play_length\":\"\",\"file_deal_status\":\"\",\"keyword\":[\"藿香正气水\"],\"tag\":[{\"ruleId\":\"0002\",\"tags\":[{\"key\":\"主题\",\"values\":[\"产品体积\"]}]}]}]},\"currentNode\":\"\",\"effectTime\":\"\",\"brandCode\":\"\",\"cloudType\":\"\",\"engineId\":\"\",\"level\":\"\",\"fileKeyList\":{\"url\":\"http://file.com/xxx.pdf\"},\"nodeParam\":\"\"}";
-        Optional<BccSliceTagMessage> parse = BaseJsonUtil.parse(s, new TypeReference<BccSliceTagMessage>() {});
-        parse.ifPresent(bccSliceTagMessage -> System.out.println());
-
+    public void t4() throws JsonProcessingException {
+        JsonNode jsonNode = BaseJsonUtil.MAPPER.readTree("123");
+        Map<String, Object> stringObjectMap =
+            BaseJsonUtil.MAPPER.convertValue(jsonNode, new TypeReference<Map<String, Object>>() {});
     }
 }

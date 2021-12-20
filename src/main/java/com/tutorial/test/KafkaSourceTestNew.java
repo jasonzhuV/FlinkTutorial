@@ -32,7 +32,7 @@ public class KafkaSourceTestNew {
         KafkaSource<String> source = KafkaSource.<String>builder().setBootstrapServers(brokerList)
             .setTopics(cbbTopicName).setGroupId(groupId).setStartingOffsets(OffsetsInitializer.earliest())
             .setValueOnlyDeserializer(new SimpleStringSchema()).build();
-
+        // 这里注意版本变化，addSource 不能用了
         DataStreamSource<String> kafkaStream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "KafkaSource");
 
         kafkaStream.filter(new FilterFunction<String>() {

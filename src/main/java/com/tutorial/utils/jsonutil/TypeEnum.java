@@ -1,8 +1,7 @@
-package com.tutorial.utils;
+package com.tutorial.utils.jsonutil;
 
 /**
- * @author weijinglun
- * @date 2021.10.18
+ * @author zhupeiwen
  */
 public enum TypeEnum {
     // /**

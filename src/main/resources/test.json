@@ -1,0 +1,15 @@
+{
+  "id": "10086",
+  "contents": [
+    {
+      "name": "tom",
+      "age": "27",
+      "gender": "male"
+    },
+    {
+      "brand": "huawei",
+      "price": "6999",
+      "color": "black"
+    }
+  ]
+}

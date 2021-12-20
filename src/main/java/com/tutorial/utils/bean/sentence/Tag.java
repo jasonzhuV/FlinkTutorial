@@ -1,4 +1,5 @@
-package com.tutorial.utils;
+
+package com.tutorial.utils.bean.sentence;
 
 import java.util.List;
 
@@ -8,13 +9,14 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author zhupeiwen
- * @date 2021/12/3 2:36 下午
  */
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JsonBean {
-    private String id;
-    private String version;
-    private List<String> data;
+@Data
+public class Tag {
+
+    private String ruleId;
+    private List<Tags> tags;
+    private List<Keywords> keywords;
+
 }

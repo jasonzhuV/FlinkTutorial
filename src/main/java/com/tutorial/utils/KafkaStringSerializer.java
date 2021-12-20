@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import com.tutorial.utils.jsonutil.BaseJsonUtil;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 

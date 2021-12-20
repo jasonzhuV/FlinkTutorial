@@ -1,13 +1,13 @@
-package com.tutorial.utils;
+package com.tutorial.utils.jsonutil;
 
 import java.io.IOException;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public abstract class BaseJsonUtil {
     public static final ObjectMapper MAPPER = new ObjectMapper();
 
     static {
-        MAPPER.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+        // MAPPER.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         SimpleModule module = new SimpleModule();
         module.addDeserializer(TypeEnum.class, new TypeEnumJsonDeserializer());
@@ -58,6 +58,36 @@ public abstract class BaseJsonUtil {
             return Optional.of(MAPPER.readValue(s, clazz));
         } catch (JsonProcessingException e) {
             log.error("json parse failed, msg:{}, error:{}" + s + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public static <T> Optional<T> parse(JsonParser jsonParser, Class<T> clazz) throws IOException {
+        try {
+            return Optional.of(MAPPER.readValue(jsonParser, clazz));
+        } catch (JsonProcessingException e) {
+            log.error("json parse failed, msg:{}, error:{}" + jsonParser.toString() + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * 
+     * @param jsonParser
+     *            used for custom deserializer
+     * @param typeReference
+     *            type of elements
+     * @param <T>
+     *            Generic
+     * @return Bean
+     * @throws IOException
+     *             readValue of ObjectMapper
+     */
+    public static <T> Optional<T> parse(JsonParser jsonParser, TypeReference<T> typeReference) throws IOException {
+        try {
+            return Optional.of(MAPPER.readValue(jsonParser, typeReference));
+        } catch (JsonProcessingException e) {
+            log.error("json parse failed, msg:{}, error:{}" + jsonParser.toString() + e.getMessage());
             return Optional.empty();
         }
     }

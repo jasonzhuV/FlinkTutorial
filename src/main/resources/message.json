@@ -1,0 +1,68 @@
+{
+  "code": "",
+  "body": {
+    "sliceId": "mdxalffa001",
+    "msg_id": "xxxxxxxxx",
+    "msgFrom": "0001",
+    "msgToList": "0002",
+    "msgTime": "2021-11-11 12:00:00",
+    "msgType": "text",
+    "text": "请问有什么可以帮到您",
+    "msgFileUrl": "",
+    "msgFileSize": "",
+    "filePlayLength": "",
+    "fileDealStatus": "",
+    "staffIds": "Wxmaapekddlqkf",
+    "staffOneIds": "12201,11101",
+    "consumerIds": "ZHANGsan",
+    "tag": [
+      {
+        "ruleId": "0001",
+        "tags": [
+          {
+            "key": "话题",
+            "gcode": "话题",
+            "values": [
+              "迎宾"
+            ],
+            "codes": [
+              "迎宾"
+            ]
+          },
+          {
+            "key": "主题",
+            "gcode": "话题",
+            "values": [
+              "需求问询"
+            ],
+            "codes": [
+              "迎宾"
+            ]
+          }
+        ],
+        "keywords": [
+          {
+            "startIndex": 10,
+            "length": 2,
+            "wordGroup": "竞品",
+            "keyword": "微伴"
+          },
+          {
+            "startIndex": 10,
+            "length": 2,
+            "wordGroup": "竞品",
+            "keyword": "微伴"
+          }
+        ]
+      }
+    ]
+  },
+  "currentNode": "",
+  "effectTime": "",
+  "brandCode": "",
+  "cloudType": "",
+  "engineId": "",
+  "level": "",
+  "fileKeyList": {},
+  "nodeParam": ""
+}

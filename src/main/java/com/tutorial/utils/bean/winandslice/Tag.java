@@ -1,4 +1,5 @@
-package com.tutorial.utils.bean;
+
+package com.tutorial.utils.bean.winandslice;
 
 import java.util.List;
 
@@ -8,11 +9,14 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author zhupeiwen
- * @date 2021/12/3 2:57 下午
  */
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Tag {
-    private List<SliceTag> tag;
+
+    private int ruleId;
+    private List<Tags> tags;
+    private List<Keywords> keywords;
+
 }
