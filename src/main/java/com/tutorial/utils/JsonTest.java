@@ -5,14 +5,13 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.tutorial.utils.bean.BccTagMessageBase;
 import com.tutorial.utils.bean.testbean.Contents;
 import com.tutorial.utils.bean.testbean.People;
@@ -60,11 +59,10 @@ public class JsonTest {
 
     @Test
     public void t3() throws IOException {
-        InputStream jsonInputStream = JsonTest.class.getClassLoader().getResourceAsStream("test.json");
+        InputStream jsonInputStream = JsonTest.class.getClassLoader().getResourceAsStream("jsontest/test.json");
         String jsonStr = "";
         try {
-            assert jsonInputStream != null;
-            jsonStr = IOUtils.toString(jsonInputStream, StandardCharsets.UTF_8);
+            jsonStr = IOUtils.toString(Objects.requireNonNull(jsonInputStream), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,10 +81,4 @@ public class JsonTest {
         }
     }
 
-    @Test
-    public void t4() throws JsonProcessingException {
-        JsonNode jsonNode = BaseJsonUtil.MAPPER.readTree("123");
-        Map<String, Object> stringObjectMap =
-            BaseJsonUtil.MAPPER.convertValue(jsonNode, new TypeReference<Map<String, Object>>() {});
-    }
 }

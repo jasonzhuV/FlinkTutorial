@@ -1,0 +1,238 @@
+{
+  "msgRoomId": "wrzuQBCQAAr2GkXs2Jl7doygJswKKmlA",
+  "dialogueId": "1100001",
+  "brandId": "",
+  "brandName": "",
+  "dataVersion": "",
+  "day": "2021-11-11",
+  "startSliceId": "00001",
+  "endSliceId": "00002",
+  "isRelevant": "1",
+  "sliceNum": "2",
+  "staffIds": "Wxmaapekddlqkf",
+  "staffOneIds": "12201,11101",
+  "consumerIds": "ZHANGsan",
+  "staffNames": "张三",
+  "details": [
+    {
+      "msgRoomId": "wrzuQBCQAAr2GkXs2Jl7doygJswKKmlA",
+      "dialogueId": "1100001",
+      "winId": "00001",
+      "brandId": "",
+      "brandName": "",
+      "dataVersion": "",
+      "day": "2021-11-11",
+      "startSliceId": "00001",
+      "endSliceId": "00002",
+      "isRelevant": "1",
+      "sliceNum": "2",
+      "staffIds": "Wxmaapekddlqkf",
+      "staffOneIds": "12201,11101",
+      "consumerIds": "ZHANGsan",
+      "staffNames": "张三",
+      "tag": [
+        {
+          "ruleId": "00011",
+          "tags": [
+            {
+              "key": "话题",
+              "gcode": "话题",
+              "values": [
+                "需求问询"
+              ],
+              "codes": [
+                "需求问询"
+              ]
+            }
+          ],
+          "keywords": [
+            {
+              "startIndex": 10,
+              "length": 2,
+              "wordGroup": "竞品",
+              "gcode": "竞品",
+              "keyword": "微伴",
+              "code": "微伴",
+              "index": 1
+            },
+            {
+              "startIndex": 10,
+              "length": 2,
+              "wordGroup": "竞品",
+              "gcode": "竞品",
+              "keyword": "微伴",
+              "code": "微伴",
+              "index": 2
+            }
+          ]
+        }
+      ],
+      "slices": [
+        {
+          "sliceId": "mdxalffa001",
+          "msgFrom": "0001",
+          "msgToList": "0002",
+          "msgTime": "2021-11-11 12:00:00",
+          "msgType": "text",
+          "text": "请问有什么可以帮到您",
+          "msgFileUrl": "",
+          "msgFileSize": "",
+          "filePlayLength": "",
+          "fileDealStatus": "",
+          "tag": [
+            {
+              "ruleId": "0001",
+              "tags": [
+                {
+                  "key": "话题",
+                  "gcode": "话题",
+                  "values": [
+                    "迎宾"
+                  ],
+                  "codes": [
+                    "迎宾"
+                  ]
+                },
+                {
+                  "key": "主题",
+                  "gcode": "主题",
+                  "values": [
+                    "需求问询"
+                  ],
+                  "codes": [
+                    "需求问询"
+                  ]
+                }
+              ],
+              "keywords": [
+                {
+                  "startIndex": 10,
+                  "length": 2,
+                  "wordGroup": "竞品",
+                  "gcode": "竞品",
+                  "keyword": "微伴",
+                  "code": "微伴"
+                },
+                {
+                  "startIndex": 10,
+                  "length": 2,
+                  "wordGroup": "竞品",
+                  "gcode": "竞品",
+                  "keyword": "微伴",
+                  "code": "微伴"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "sliceId": "mdxalffa002",
+          "msgFrom": "0002",
+          "msgToList": "0001",
+          "msgTime": "2021-11-11 12:00:00",
+          "msgType": "text",
+          "text": "有没有藿香正气水？",
+          "msgFileUrl": "",
+          "msgFileSize": "",
+          "filePlayLength": "",
+          "fileDealStatus": "",
+          "tag": [
+            {
+              "ruleId": "0002",
+              "tags": [
+                {
+                  "key": "主题",
+                  "gcode": "主题",
+                  "values": [
+                    "产品体积"
+                  ],
+                  "codes": [
+                    "产品体积"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sliceId": "mdxalffa001",
+      "msgId": "xxxxxxxxx",
+      "msgFrom": "0001",
+      "msgToList": "0002",
+      "msgTime": "2021-11-11 12:00:00",
+      "msgType": "text",
+      "text": "请问有什么可以帮到您",
+      "msgFileUrl": "",
+      "msgFileSize": "",
+      "filePlayLength": "",
+      "fileDealStatus": "",
+      "fileData": {
+        "originalFileName": "SpResult_VDO-57_1009rerun_延期.xlsx",
+        "lastModifiedDateTime": "2020-10-19T16:00:47.000Z",
+        "subject": "答复: 【延期申请】OLAY OCT'20 HEAVY UP-VDO-78/79/57/81",
+        "bucketId": 80,
+        "ossFileName": "0ed3275906f64072a325ac5c5dbdc226",
+        "sender": "eugenie.***@***",
+        "recipients": [
+          "sylvia.***@***",
+          "***@***"
+        ],
+        "fileType": "xxx",
+        "roomId": "asdasw12231sew",
+        "originalFileMd5": "991213b31cc4e1f8f66f4893b6f0dfbd",
+        "encryptFileMd5": "e2836bfe65166ee47a1dfd06746930da",
+        "msgId": "e2836bfe65166ee47a1dfd06746930da"
+      },
+      "staffIds": "Wxmaapekddlqkf",
+      "staffOneIds": "12201,11101",
+      "consumerIds": "ZHANGsan",
+      "tag": [
+        {
+          "ruleId": "0001",
+          "tags": [
+            {
+              "key": "话题",
+              "gcode": "话题",
+              "values": [
+                "迎宾"
+              ],
+              "codes": [
+                "迎宾"
+              ]
+            },
+            {
+              "key": "主题",
+              "gcode": "主题",
+              "values": [
+                "需求问询"
+              ],
+              "codes": [
+                "需求问询"
+              ]
+            }
+          ],
+          "keywords": [
+            {
+              "startIndex": 10,
+              "length": 2,
+              "wordGroup": "竞品",
+              "gcode": "竞品",
+              "keyword": "微伴",
+              "code": "微伴"
+            },
+            {
+              "startIndex": 10,
+              "length": 2,
+              "wordGroup": "竞品",
+              "gcode": "竞品",
+              "keyword": "微伴",
+              "code": "微伴"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

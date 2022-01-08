@@ -18,6 +18,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class RootObject {
     private String id;
+    /**
+     * json的数组中的元素的类型可能不一样 这里用Content表示数组中的元素，数组中不同的元素类型继承这个类，表示是数组中的元素 自定义jackson的反序列化器对数组中不同类型的元素进行反序列化
+     */
     @JsonDeserialize(using = CustomDeserializer.class)
     private List<Contents> contents;
 }

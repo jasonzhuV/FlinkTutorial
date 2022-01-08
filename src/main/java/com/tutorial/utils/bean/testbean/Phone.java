@@ -13,7 +13,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Data
 @ToString
-public class Phone extends Contents {
+public class Phone implements Contents {
     private String brand;
     private String price;
     private String color;
